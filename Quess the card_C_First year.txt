@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct carta{
+    char seme;
+    int valore;
+}carta;
+int i;
+int j;
+int inizializza_mazzo(carta mazzo[])
+{
+    char tipi[]={"cqfp"};
+    int incremento = 0;
+    int j=1;
+    for (i=0; i<52; i++)
+        {
+            if (j>13){j=j-13;}
+            mazzo[i].valore = j;
+            j++;
+        }
+
+    int mem=0;
+    for (i=1; i<5; i++)
+        {
+            for (j=mem; j<13+mem; j++)
+            {
+                mazzo[j].seme = tipi[incremento];
+            }
+            mem=j;
+            incremento++;
+
+        }
+
+
+}
+int guarda_mazzo(carta mazzo[])
+{
+    for(i=0; i<52; i++)
+        {
+            if(mazzo[i].valore==11){printf("J di %c\n", mazzo[i].seme);}
+            if(mazzo[i].valore==12){printf("Q di %c\n", mazzo[i].seme);}
+            if(mazzo[i].valore==13){printf("K di %c\n", mazzo[i].seme);}
+            if(mazzo[i].valore!=11 && mazzo[i].valore!=12 && mazzo[i].valore!=13 ) {printf("carta con valore %d di seme %c\n", mazzo[i].valore, mazzo[i].seme);}
+        }
+}
+int mescola_mazzo(carta mazzo[])
+{
+    printf("quante vuole vuoi mescolarlo? ");
+    carta tmp;
+    int n;
+    scanf("%d",&n);
+    for(i=0; i<n; i++)
+        {
+            for(j=0; j<52; j++)
+                {
+                    int pos = rand()%52;
+                    tmp = mazzo[j];
+                    mazzo[j] = mazzo[pos];
+                    mazzo[pos] = tmp;
+                }
+        }
+
+}
+int testa_la_fortuna(carta mazzo[])
+{
+    carta carta = mazzo[rand()%52];
+    if(carta.valore==11){printf("J di %c\n", carta.seme);}
+    if(carta.valore==12){printf("Q di %c\n", carta.seme);}
+    if(carta.valore==13){printf("K di %c\n", carta.seme);}
+    if(carta.valore!=11 && carta.valore!=12 && carta.valore!=13 ) {printf("carta con valore %d di seme %c\n", carta.valore, carta.seme);}
+}
+int spezza(carta mazzo[])
+{
+    carta tmp;
+    int n;
+    printf("quanto vuoi spezzare il mazzo? \n");
+    scanf("%d", &n);
+
+    for (j=0; j<n; j++)
+        {
+            for (i=0; i<51; i++)
+            {
+                tmp = mazzo[i];
+                mazzo[i] = mazzo[i+1];
+                mazzo[i+1] = tmp;
+            }
+        }
+}
+int main()
+{
+    carta mazzo[52];
+    inizializza_mazzo(mazzo);
+    int val;
+
+
+    start:
+
+    printf("\n\n\nselezioni una azione da svolgere dalle seguenti\n 1 per vedere il mazzo\n 2 mescolare il mazzo\n 3 per riordinarlo\n 4 testa la tua fortuna\n 5 per spezzare\n altro per uscire\n");
+    scanf("%d", &val);
+    if (val==1){guarda_mazzo(mazzo); goto start;}
+    if (val==2){mescola_mazzo(mazzo);goto start;}
+    if (val==3){inizializza_mazzo(mazzo);goto start;}
+    if (val==4){testa_la_fortuna(mazzo);goto start;}
+    if (val==5){spezza(mazzo); goto start;}
+
+
+
+}
+
+
