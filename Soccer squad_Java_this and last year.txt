@@ -7,21 +7,21 @@ public class Main {
 	{
 		InputStreamReader input = new InputStreamReader(System.in);
 		BufferedReader tastiera = new BufferedReader (input);
-		Squadra squadra;
+		Squad squad;
 		try 
 		{
-			System.out.println("Inserire numero di calciatori e portieri separati da uno spazio");
+			System.out.println("How many players and porters are there? please leave a space between the numbers");
 			String str = tastiera.readLine();
 			String str_arr[] = str.split(" ");
-			squadra = new Squadra(Integer.valueOf(str_arr[0]), Integer.valueOf(str_arr[1]));
+			squad = new Squad(Integer.valueOf(str_arr[0]), Integer.valueOf(str_arr[1]));
 			
-			squadra_in(squadra,Integer.valueOf(str_arr[0]) , Integer.valueOf(str_arr[1]));
+			squad_in(squad,Integer.valueOf(str_arr[0]) , Integer.valueOf(str_arr[1]));
 			
-			System.out.println("La squadra è composta da:");
-			squadra.StampaSquadra();
+			System.out.println("The squad is composed by");
+			squad.ShowSquad();
 			System.out.println("");
-			System.out.println("sono stati fatti complessivamente "+squadra.goalFatti()+" goal");
-			System.out.println("sono stati subiti complessivamente "+squadra.goalSubiti()+" goal");
+			System.out.println("scored "+squad.scoredGoals()+" goals");
+			System.out.println("suffered "+squad.sufferedGoals()+" goals");
 
 			
 		}
@@ -33,7 +33,7 @@ public class Main {
 
 	}
 	
-	public static void squadra_in(Squadra squadra, int cal, int por) 
+	public static void squad_in(Squad squad, int cal, int por) 
 	{
 		InputStreamReader input = new InputStreamReader(System.in);
 		BufferedReader tastiera = new BufferedReader (input);
@@ -43,14 +43,14 @@ public class Main {
 		{
 			try 
 			{
-				System.out.println("Inserire nome, cognome, goal separati dallo spazio");
+				System.out.println("Insert name, surname, scored goals with a space in each string");
 				String str = tastiera.readLine();
 				String str_arr[] = str.split(" ");
-				squadra.AggiungCalciatore(i, str_arr[0], str_arr[1], Integer.valueOf(str_arr[2]));
+				squad.AddPlayer(i, str_arr[0], str_arr[1], Integer.valueOf(str_arr[2]));
 			}
 			catch(Exception e) 
 			{
-				System.out.println("squadra_in_calciatori");
+				System.out.println("squad_in_players");
 			}
 			
 		}
@@ -59,14 +59,14 @@ public class Main {
 		{
 			try 
 			{
-				System.out.println("Inserire nome, cognome, goal e goal subiti separati dallo spazio");
+				System.out.println("Insert name, surname, suffered goals with a space in each string");
 				String str = tastiera.readLine();
 				String str_arr[] = str.split(" ");
-				squadra.AggiungiPortiere(i, str_arr[0], str_arr[1],Integer.valueOf(str_arr[2]),Integer.valueOf(str_arr[3]));
+				squad.AddPorters(i, str_arr[0], str_arr[1],Integer.valueOf(str_arr[2]),Integer.valueOf(str_arr[3]));
 			}
 			catch(Exception e) 
 			{
-				System.out.println("squadra_in_portiere");
+				System.out.println("squad_in_portiere");
 			}
 			
 		}
@@ -88,25 +88,25 @@ public class Main {
 
 package verifica28032022;
 
-public class Calciatore 
+public class Player 
 {
-	private String nome, cognome;
+	private String name, surname;
 	private int goal;
 	
-	public Calciatore(String n, String c, int g) 
+	public Player(String n, String c, int g) 
 	{
-		nome = n;
-		cognome = c;
+		name = n;
+		surname = c;
 		goal = g;
 	}
 	
-	public String getNome() 
+	public String getName() 
 	{
-		return nome;
+		return name;
 	}
-	public String getCognome() 
+	public String getSurname() 
 	{
-		return cognome;
+		return surname;
 	}
 	public int getGoal() 
 	{
@@ -135,17 +135,17 @@ public class Calciatore
 
 package verifica28032022;
 
-public class Portiere extends Calciatore
+public class Porters extends Player
 {
 	private int goal_in;
 	
-	public Portiere(String n, String c, int g, int i) 
+	public Porters(String n, String c, int g, int i) 
 	{
 		super(n, c, g);
 		goal_in = i;
 	}
 	
-	public int getGoalSubiti() 
+	public int getSufferedGoals() 
 	{
 		return goal_in;
 	}
@@ -185,71 +185,71 @@ public class Portiere extends Calciatore
 
 package verifica28032022;
 
-public class Squadra 
+public class Squad 
 {
-	private Calciatore calciatori[];
-	private Portiere portieri[];
-	public Squadra(int c, int p) 
+	private Player players[];
+	private Porters porters[];
+	public Squad(int c, int p) 
 	{
-		calciatori = new Calciatore[c];
-		portieri = new Portiere[p];
+		players = new Player[c];
+		porters = new Porters[p];
 	}
 	
-	public void AggiungCalciatore(int i, String n, String c, int g) 
+	public void AddPlayer(int i, String n, String c, int g) 
 	{
 		if (g>-1) 
 		{
-			calciatori[i]= new Calciatore(n, c, g);
+			players[i]= new Player(n, c, g);
 		}
 		
 	}
 	
-	public void AggiungiPortiere(int i, String n, String c, int g, int g_in) 
+	public void AddPorters(int i, String n, String c, int g, int g_in) 
 	{
 		if (g>-1 && g_in>-1) 
 		{
-			portieri[i]= new Portiere(n, c, g, g_in);
+			porters[i]= new Porters(n, c, g, g_in);
 		}
 		
 	}
 	
-	public int goalFatti() 
+	public int scoredGoals() 
 	{
 		int i;
 		int med = 0;
-		for(i=0; i<calciatori.length; i++) 
+		for(i=0; i<players.length; i++) 
 		{
-			med += calciatori[i].getGoal();
+			med += players[i].getGoal();
 		}
-		for(i=0; i<portieri.length; i++) 
+		for(i=0; i<porters.length; i++) 
 		{
-			med += portieri[i].getGoal();
+			med += porters[i].getGoal();
 		}
 
 		return med;
 	}
 	
-	public int goalSubiti() 
+	public int sufferedGoals() 
 	{
 		int i;
 		int med = 0;
-		for(i=0; i<portieri.length; i++) 
+		for(i=0; i<porters.length; i++) 
 		{
-			med += portieri[i].getGoalSubiti();
+			med += porters[i].getSufferedGoals();
 		}
 		return med;
 	}
 	
-	public void StampaSquadra() 
+	public void ShowSquad() 
 	{
 		int i;
-		for (i=0; i<calciatori.length; i++) 
+		for (i=0; i<players.length; i++) 
 		{
-			System.out.println("Calciatore "+calciatori[i].getNome()+" "+calciatori[i].getCognome()+" con goal: "+calciatori[i].getGoal());
+			System.out.println("Player "+players[i].getName()+" "+players[i].getSurname()+" con goal: "+players[i].getGoal());
 		}
-		for (i=0; i<portieri.length; i++) 
+		for (i=0; i<porters.length; i++) 
 		{
-			System.out.println("Portiere "+portieri[i].getNome()+" "+portieri[i].getCognome()+" con goal: "+portieri[i].getGoal()+" e goal subiti: "+portieri[i].getGoalSubiti());
+			System.out.println("Porters "+porters[i].getName()+" "+porters[i].getSurname()+" con goal: "+porters[i].getGoal()+" e goal subiti: "+porters[i].getSufferedGoals());
 		}
 	}
 
