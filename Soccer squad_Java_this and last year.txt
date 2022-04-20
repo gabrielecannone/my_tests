@@ -245,11 +245,11 @@ public class Squad
 		int i;
 		for (i=0; i<players.length; i++) 
 		{
-			System.out.println("Player "+players[i].getName()+" "+players[i].getSurname()+" con goal: "+players[i].getGoal());
+			System.out.println("Player "+players[i].getName()+" "+players[i].getSurname()+" scored goals: "+players[i].getGoal());
 		}
 		for (i=0; i<porters.length; i++) 
 		{
-			System.out.println("Porters "+porters[i].getName()+" "+porters[i].getSurname()+" con goal: "+porters[i].getGoal()+" e goal subiti: "+porters[i].getSufferedGoals());
+			System.out.println("Porters "+porters[i].getName()+" "+porters[i].getSurname()+" scored goals: "+porters[i].getGoal()+" e suffered goals: "+porters[i].getSufferedGoals());
 		}
 	}
 
